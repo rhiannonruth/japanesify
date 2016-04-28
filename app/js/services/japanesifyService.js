@@ -16,10 +16,10 @@ japanesifyApp.service('japanesifyService', ['rulesService',function(rulesService
 
     var result;
 
-    if (string.length === 1) {
+    if (_isStringLength1(string)) {
       result = string;
       matchedSyllables.push(result);
-    } else if(!!hasThree) {
+    } else if(ruleJP.threeCharSyllablesFunc(string)) {
       result = hasThree[0];
       matchedSyllables.push(result);
     } else if (!!hasTwo){
@@ -33,6 +33,10 @@ japanesifyApp.service('japanesifyService', ['rulesService',function(rulesService
     while (reducedString.length > 0) {
       _matchRules(reducedString, ruleJP);
     }
+  }
+
+  function _isStringLength1(string) {
+    return string.length===1;
   }
 
   self.convertToJapanese = function(array, ruleJP) {
