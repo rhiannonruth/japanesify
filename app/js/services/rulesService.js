@@ -36,13 +36,16 @@ japanesifyApp.service('rulesService', ['CONVERSION_CONSTANT', function(CONVERSIO
   };
 
   consDoubleVowelFunc = function(name) {
+    var aOReORoAt1 = _charAt(1, name, 'a') || _charAt(1, name, 'e') || _charAt(1, name, 'o');
+    var aOReORiORuAt2 = _charAt(2, name, 'a') || _charAt(2, name, 'e') || _charAt(2, name, 'i') || _charAt(2, name, 'u');
     // this takes all vowels but regex is [aeo][aeiu]
-    return _consAt(0, name) && _vowelAt(1, name) && _vowelAt(2, name);
+    return _consAt(0, name) && aOReORoAt1 && aOReORiORuAt2;
   };
 
   consVowelRWYFunc = function(name) {
     var rORyORw = _charAt(2, name, 'r') || _charAt(2, name, 'w') || _charAt(2, name, 'y');
-    return _consAt(0, name) && _vowelAt(1, name) && (rORyORw) && !(_vowelAt(3, name));
+    // return _consAt(0, name) && _vowelAt(1, name) && (rORyORw) && !((_vowelAt(3, name)||(_charAt(3 name, 'y')));
+    return _consAt(0, name) && _vowelAt(1, name) && (rORyORw) && !(_vowelAt(3, name)||_charAt(3, name, 'y'));
   };
 
   doubleLNVowelFunc = function(name) {
