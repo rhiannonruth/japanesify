@@ -12,7 +12,7 @@ japanesifyApp.controller('japanesifyController', ['TranslationFactory', 'japanes
   };
 
   vm.printId = function(id) {
-    var id = "translation-" + id;
+    var id = id.toString();
     var printContents = document.getElementById(id).innerHTML;
     var originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
