@@ -2,6 +2,13 @@ japanesifyApp.service('japanesifyService', ['rulesService',function(rulesService
   var self = this;
   var matchedSyllables= [];
 
+  var fourSyll = rulesService.fourCharSyllables()
+  var threeSyll = rulesService.threeCharSyllables()
+  var twoSyll = rulesService.twoCharSyllables()
+  var oneSyll = /[A-Z]/i
+
+  var ruleArray = [fourSyll,threeSyll,twoSyll, oneSyll]
+
   self.splitIntoSyllables = function(string, ruleJP) {
     _matchRules(string, ruleJP);
     var output = matchedSyllables;
@@ -10,30 +17,21 @@ japanesifyApp.service('japanesifyService', ['rulesService',function(rulesService
   };
 
   function _matchRules(string, ruleJP) {
+
+  
     var slicedString = string.slice(0, 4);
-    var matchFourSyllableRule = slicedString.match(ruleJP.fourCharSyllables());
-    var matchThreeSyllableRule = slicedString.match(ruleJP.threeCharSyllables());
-    var matchTwoSyllableRule = slicedString.match(ruleJP.twoCharSyllables());
+    
+    ruleArray.forEach(function(rule){
+       if (!!slicedString.match(rule)) {break;}
+       matchedSyllables.push(slicedString.match(rule)[0])
+    })
 
-    var result;
+    console.log(matchedSyllables)
 
-    if (string.length === 1) {
-      result = string;
-      matchedSyllables.push(result);
-    } else if(!!matchFourSyllableRule) {
-      result = matchFourSyllableRule[0];
-      matchedSyllables.push(result);
-    } else if(!!matchThreeSyllableRule) {
-      result = matchThreeSyllableRule[0];
-      matchedSyllables.push(result);
-    } else if (!!matchTwoSyllableRule){
-      result = matchTwoSyllableRule[0];
-      matchedSyllables.push(result);
-    } else {
-      result = string[0];
-      matchedSyllables.push(result);
-    }
+    var result = last(matchedSyllables)
+
     reducedString = string.replace(result, '');
+    
     while (reducedString.length > 0) {
       _matchRules(reducedString, ruleJP);
     }
@@ -57,4 +55,12 @@ japanesifyApp.service('japanesifyService', ['rulesService',function(rulesService
     var syllableArray = self.splitIntoSyllables(string, rulesService);
     return self.convertToJapanese(syllableArray, rulesService);
   };
+
+  function last(array) {
+    length = array.length
+    return array[length-1]
+  } 
+
+
+
 }]);
