@@ -24,11 +24,12 @@ japanesifyApp.service('rulesService', ['CONVERSION_CONSTANT', function(CONVERSIO
   };
 
   doubleConsFunc = function(name) {
-    return _consAt(0, name) && _consAt(1, name);
+    var finalIndex = name.length-1;
+    return _consAt((finalIndex-1), name) && _consAt(finalIndex, name);
   };
 
   startsCHConsFunc = function(name) {
-    return _charAt(0, name, 'c') && _charAt(1, name, 'h') && _vowelAt(2, name);
+    return _charAt(0, name, 'c') && _charAt(1, name, 'h') && !(_vowelAt(2, name));
   };
 
   consHVowelFunc = function(name) {
@@ -54,12 +55,22 @@ japanesifyApp.service('rulesService', ['CONVERSION_CONSTANT', function(CONVERSIO
     return lORnAt0 && lORnAt1 && _vowelAt(2, name);
   };
 
+  doubleConsDoubleVowelFunc = function(name) {
+    var aOReORoAt2 = _charAt(2, name, 'a') || _charAt(2, name, 'e') || _charAt(2, name, 'o');
+    var aOReORiORuAt3 = _charAt(3, name, 'a') || _charAt(3, name, 'e') || _charAt(3, name, 'i') || _charAt(2, name, 'u');
+    return _consAt(0, name) && _consAt(1, name) && aOReORoAt2 && aOReORiORuAt3;
+  };
+
   this.twoCharSyllablesFunc = function(name) {
     return (consVowelFunc(name) || doubleConsFunc(name) || startsCHConsFunc(name));
   };
 
   this.threeCharSyllablesFunc = function(name) {
     return (consHVowelFunc(name) || consDoubleVowelFunc(name) || consVowelRWYFunc(name) || doubleLNVowelFunc(name));
+  };
+
+  this.fourCharSyllablesFunc = function(name) {
+    return doubleConsDoubleVowelFunc(name);
   };
 
   var consVowel = '[b-df-hj-np-tv-z][aeiou]';
@@ -69,6 +80,7 @@ japanesifyApp.service('rulesService', ['CONVERSION_CONSTANT', function(CONVERSIO
   var consDoubleVowel = '[bdf-hj-np-tv-z]+[aeo][aeiu]';
   var consVowelRWY = '[b-df-hj-np-tv-z][aeiou][rwy](\\b|(?![aeiouy]))';
   var doubleLNVowel = '[ln]{2}[aeiou]';
+  var doubleConsDoubleVowel = '[bdf-hj-np-tv-z]{2}[aeo][aeiu]';
 
   this.twoCharSyllables = function(name){
     return new RegExp('^'+'('+consVowel+'|'+
@@ -81,5 +93,9 @@ japanesifyApp.service('rulesService', ['CONVERSION_CONSTANT', function(CONVERSIO
                               consDoubleVowel+'|'+
                               consVowelRWY+'|'+
                               doubleLNVowel+')', 'i');
+  };
+
+  this.fourCharSyllables = function(name) {
+    return new RegExp('^'+'('+doubleConsDoubleVowel+')', 'i');
   };
 }]);

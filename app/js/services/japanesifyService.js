@@ -19,11 +19,14 @@ japanesifyApp.service('japanesifyService', ['rulesService',function(rulesService
     if (_isStringLength1(string)) {
       result = string;
       matchedSyllables.push(result);
-    } else if(ruleJP.threeCharSyllablesFunc(string)) {
-      result = hasThree[0];
+    } else if(ruleJP.fourCharSyllablesFunc(string)) {
+      result = string.slice(0, 4);
       matchedSyllables.push(result);
-    } else if (!!hasTwo){
-      result = hasTwo[0];
+    } else if(ruleJP.threeCharSyllablesFunc(string)) {
+      result = string.slice(0, 3);
+      matchedSyllables.push(result);
+    } else if (ruleJP.twoCharSyllablesFunc(string)){
+      result = string.slice(0,2);
       matchedSyllables.push(result);
     } else {
       result = string[0];
