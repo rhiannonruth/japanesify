@@ -4,9 +4,9 @@ describe ('rulesService', function(){
 
   var rulesService;
 
-  function _returnMatch(name, matcher){
-    return name.match(matcher)[0];
-  }
+  // function _returnMatch(name, matcher){
+  //   return name.match(matcher)[0];
+  // }
 
   beforeEach(inject(function(_rulesService_){
     rulesService = _rulesService_;
@@ -18,22 +18,30 @@ describe ('rulesService', function(){
 
   describe('#twoCharSyllables', function(){
     it('returns the pair when the name matches the rule', function(){
-      var rule = rulesService.twoCharSyllables();
-      expect(_returnMatch('caspar', rule)).toEqual("ca");
-      expect(_returnMatch('misa', rule)).toEqual("mi");
-      expect(_returnMatch('chrch', rule)).toEqual("ch");
-      expect(_returnMatch('ch', rule)).toEqual("ch");
+      var names = ['caspar', 'misa', 'chrch', 'ch'];
+      names.forEach(function(name){
+        expect(rulesService.twoCharSyllablesFunc(name)).toBe(true);
+      });
+    //   var rule = rulesService.twoCharSyllables();
+    //   expect(_returnMatch('caspar', rule)).toEqual("ca");
+    //   expect(_returnMatch('misa', rule)).toEqual("mi");
+    //   expect(_returnMatch('chrch', rule)).toEqual("ch");
+    //   expect(_returnMatch('ch', rule)).toEqual("ch");
     });
   });
 
   describe('#threeCharSyllables', function() {
     it('returns the trio when the name matches the rule', function(){
-      var rule = rulesService.threeCharSyllables();
-      expect(_returnMatch('rhiannon', rule)).toEqual("rhi");
-      expect(_returnMatch('shane', rule)).toEqual("sha");
-      expect(_returnMatch('paul', rule)).toEqual("pau");
-      expect(_returnMatch('par', rule)).toEqual("par");
-      expect(_returnMatch('nna', rule)).toEqual("nna");
+      var names = ['rhiannon', 'shane', 'paul', 'par', 'nna'];
+      names.forEach(function(name){
+        expect(rulesService.threeCharSyllablesFunc(name)).toBe(true);
+      });
+      // var rule = rulesService.threeCharSyllables();
+      // expect(_returnMatch('rhiannon', rule)).toEqual("rhi");
+      // expect(_returnMatch('shane', rule)).toEqual("sha");
+      // expect(_returnMatch('paul', rule)).toEqual("pau");
+      // expect(_returnMatch('par', rule)).toEqual("par");
+      // expect(_returnMatch('nna', rule)).toEqual("nna");
     });
   });
 });
