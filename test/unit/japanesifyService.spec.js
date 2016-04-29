@@ -8,14 +8,6 @@ describe('japanesifyService', function (){
     rulesService = _rulesService_;
   }));
 
-  describe('#splitIntoSyllables', function (){
-    it ('split string based on regex', function() {
-      names.forEach(function(name){
-        expect(japanesifyService.splitIntoSyllables(name.string, rulesService)).toEqual(name.array);
-      });
-    });
-  });
-
   describe('#convertToJapanese', function(){
     it ('convert an array of syllables to a japanese string', function() {
       names.forEach(function(name){
